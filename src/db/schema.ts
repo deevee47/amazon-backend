@@ -9,6 +9,7 @@ import {
   uuid,
   index,
   unique,
+  boolean,
 } from "drizzle-orm/pg-core";
 
 // ─── Products ────────────────────────────────────────────────────────────────
@@ -146,6 +147,24 @@ export const viewingHistoryTable = pgTable(
   ]
 );
 
+// ─── Addresses ────────────────────────────────────────────────────────────────
+
+export const addressesTable = pgTable("addresses", {
+  id:        serial("id").primaryKey(),
+  sessionId: text("session_id").notNull(),
+  fullName:  text("full_name").notNull(),
+  mobile:    text("mobile").default(""),
+  pincode:   text("pincode").default(""),
+  flat:      text("flat").default(""),
+  area:      text("area").default(""),
+  landmark:  text("landmark").default(""),
+  city:      text("city").default(""),
+  state:     text("state").default(""),
+  country:   text("country").default("India"),
+  isDefault: boolean("is_default").default(false),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
 // ─── Inferred Types ───────────────────────────────────────────────────────────
 
 export type Product = typeof productsTable.$inferSelect;
@@ -160,3 +179,5 @@ export type WishlistItem = typeof wishlistTable.$inferSelect;
 export type InsertWishlistItem = typeof wishlistTable.$inferInsert;
 export type ViewingHistoryItem = typeof viewingHistoryTable.$inferSelect;
 export type InsertViewingHistoryItem = typeof viewingHistoryTable.$inferInsert;
+export type Address = typeof addressesTable.$inferSelect;
+export type InsertAddress = typeof addressesTable.$inferInsert;
