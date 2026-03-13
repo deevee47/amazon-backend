@@ -1,5 +1,5 @@
 {
-  "buildCommand": "bun build ./src/app.ts --outfile=./api/index.js --target=node --format=esm",
+  "buildCommand": "bun build ./src/app.ts --outfile=./api/index.js --target=node --format=esm --packages=external",
   "outputDirectory": "public",
   "rewrites": [
     { "source": "/(.*)", "destination": "/api/index" }
