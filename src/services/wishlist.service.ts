@@ -15,6 +15,7 @@ export async function getWishlistItems(sessionId: string) {
         stock: productsTable.stock,
         discountPercentage: productsTable.discountPercentage,
         rating: productsTable.rating,
+        reviews: productsTable.reviews,
       },
     })
     .from(wishlistTable)

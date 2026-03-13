@@ -15,6 +15,8 @@ export async function getCartItems(sessionId: string) {
         thumbnail: productsTable.thumbnail,
         stock: productsTable.stock,
         discountPercentage: productsTable.discountPercentage,
+        brand: productsTable.brand,
+        availabilityStatus: productsTable.availabilityStatus,
       },
     })
     .from(cartItemsTable)
