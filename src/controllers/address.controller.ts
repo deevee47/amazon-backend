@@ -23,14 +23,14 @@ export async function getAddresses(req: Request, res: Response, next: NextFuncti
 export async function createAddress(req: Request, res: Response, next: NextFunction) {
   try {
     const sessionId = getSessionId(req);
-    const { fullName, mobile, pincode, flat, area, landmark, city, state, country, isDefault } = req.body;
+    const { fullName, email, mobile, pincode, flat, area, landmark, city, state, country, isDefault } = req.body;
 
     if (!fullName || typeof fullName !== "string") {
       throw new AppError("fullName is required", 400);
     }
 
     const address = await AddressService.createAddress(sessionId, {
-      fullName, mobile, pincode, flat, area, landmark, city, state, country, isDefault,
+      fullName, email, mobile, pincode, flat, area, landmark, city, state, country, isDefault,
     });
     res.status(201).json({ success: true, data: address });
   } catch (err) {

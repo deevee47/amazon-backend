@@ -14,6 +14,7 @@ export async function createAddress(
   sessionId: string,
   data: {
     fullName: string;
+    email?: string;
     mobile?: string;
     pincode?: string;
     flat?: string;

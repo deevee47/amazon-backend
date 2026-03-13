@@ -153,6 +153,7 @@ export const addressesTable = pgTable("addresses", {
   id:        serial("id").primaryKey(),
   sessionId: text("session_id").notNull(),
   fullName:  text("full_name").notNull(),
+  email:     text("email").default(""),
   mobile:    text("mobile").default(""),
   pincode:   text("pincode").default(""),
   flat:      text("flat").default(""),
