@@ -1,6 +1,6 @@
 import { db } from "../db/connection.ts";
 import { ordersTable, orderItemsTable, productsTable } from "../db/schema.ts";
-import { eq, sql } from "drizzle-orm";
+import { eq, inArray, sql } from "drizzle-orm";
 import { AppError } from "../types/index.ts";
 import type { PlaceOrderBody } from "../types/index.ts";
 
@@ -93,5 +93,18 @@ export async function findOrdersByEmail(email?: string) {
   const orders = await (email ? query.where(eq(ordersTable.email, email)) : query)
     .orderBy(sql`${ordersTable.createdAt} desc`);
 
-  return orders;
+  if (orders.length === 0) return [];
+
+  const orderIds = orders.map((o) => o.id);
+  const allItems = await db
+    .select()
+    .from(orderItemsTable)
+    .where(inArray(orderItemsTable.orderId, orderIds));
+
+  const itemsByOrderId = allItems.reduce<Record<string, typeof allItems>>((acc, item) => {
+    (acc[item.orderId] ??= []).push(item);
+    return acc;
+  }, {});
+
+  return orders.map((order) => ({ ...order, items: itemsByOrderId[order.id] ?? [] }));
 }
