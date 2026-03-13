@@ -196,7 +196,6 @@ export async function placeOrder(req: Request, res: Response, next: NextFunction
 export async function getOrderHistory(req: Request, res: Response, next: NextFunction) {
   try {
     const { email } = req.query as { email?: string };
-    if (!email) throw new AppError("email query param is required", 400);
 
     const orders = await OrderService.findOrdersByEmail(email);
     res.json({ success: true, data: orders });

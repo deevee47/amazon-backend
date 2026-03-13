@@ -88,11 +88,9 @@ export async function findOrderById(id: string) {
   return { ...order, items };
 }
 
-export async function findOrdersByEmail(email: string) {
-  const orders = await db
-    .select()
-    .from(ordersTable)
-    .where(eq(ordersTable.email, email))
+export async function findOrdersByEmail(email?: string) {
+  const query = db.select().from(ordersTable);
+  const orders = await (email ? query.where(eq(ordersTable.email, email)) : query)
     .orderBy(sql`${ordersTable.createdAt} desc`);
 
   return orders;
